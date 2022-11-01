@@ -33,6 +33,7 @@ auth:
     protected: true
     public:
       - '404'
+      - iframe-login
     roles:
       token: # list all pages that only the token sign in user should see
         - new-page
@@ -69,4 +70,5 @@ auth:
 
 pages:
   - _ref: pages/new-page/new-page.yaml
+  - _ref: pages/iframe-login/iframe-login.yaml
   - _ref: pages/404/404.yaml

@@ -1,0 +1,34 @@
+id: iframe-login
+type: Box
+events:
+  onMount:
+    - id: logout
+      type: Logout
+      skip:
+        _not:
+          _user: true
+      params:
+        redirect: false
+    - id: error_token
+      type: Throw
+      params:
+        throw:
+          _not:
+            _url_query: token
+        message: 'Error: No "token" parameter specified.'
+    - id: error_page
+      type: Throw
+      params:
+        throw:
+          _not:
+            _url_query: page
+        message: 'Error: No "page" parameter specified.'
+    - id: login
+      type: Login
+      params:
+        providerId: jwt_provider
+        callbackUrl:
+          pageId:
+            _url_query: page
+        token:
+          _url_query: token
