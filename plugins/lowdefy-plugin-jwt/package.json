@@ -1,0 +1,19 @@
+{
+  "name": "@mrmtech/lowdefy-plugin-jwt",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./auth/callbacks": "./auth/callbacks.js",
+    "./auth/providers": "./auth/providers.js",
+    "./types": "./types.js"
+  },
+  "files": [
+    "*"
+  ],
+  "dependencies": {
+    "jsonwebtoken": "8.5.1",
+    "next-auth": "~4.10.3"
+  }
+}

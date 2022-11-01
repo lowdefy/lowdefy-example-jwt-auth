@@ -1,0 +1,72 @@
+lowdefy: 4.0.0-alpha.36
+version: 0.0.0
+name: Lowdefy Starter JWT
+
+plugins:
+  - name: '@lowdefy/plugin-auth-jwt'
+    version: 'workspace:*'
+
+auth:
+  callbacks:
+    - id: jwt_callback
+      type: JwtCallback
+      properties:
+        profileRolesField: 'https://example.lowdefy.dev/roles'
+        userRolesField: roles
+    - id: session_callback
+      type: SessionCallback
+  providers:
+    - id: jwt_provider
+      type: JWTProvider
+      properties:
+        roles:
+          - token
+        issuer:
+          _secret: JWT_PROVIDER_ISSUER
+        publicKey:
+          _secret: JWT_PROVIDER_PUBLIC_KEY
+  userFields:
+    jwt_user: user.jwt_user
+    # token token fields mapped to the lowdefy user, see _user
+    filter: user.filter
+  pages:
+    protected: true
+    public:
+      - '404'
+    roles:
+      token: # list all pages that only the token sign in user should see
+        - new-page
+
+  advanced: # NOTE: comment out cookies for local dev. Check readme for test instructions.
+    cookies:
+      sessionToken:
+        name: __Secure-next-auth.session-token
+        options:
+          path: '/'
+          httpOnly: true
+          sameSite: 'none'
+          secure: true
+      callbackUrl:
+        name: __Secure-next-auth.callback-url
+        options:
+          path: '/'
+          sameSite: 'none'
+          secure: true
+      csrfToken:
+        name: __Secure-next-auth.csrf-token
+        options:
+          path: '/'
+          httpOnly: true
+          sameSite: 'none'
+          secure: true
+      pkceCodeVerifier:
+        name: __Secure-next-auth.pkce.code_verifier
+        options:
+          path: '/'
+          httpOnly: true
+          sameSite: 'none'
+          secure: true
+
+pages:
+  - _ref: pages/new-page/new-page.yaml
+  - _ref: pages/404/404.yaml
