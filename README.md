@@ -1,17 +1,30 @@
-# starter-jwt
 
-A lowdefy monorepo starter for jwt auth.
+# lowdefy-example-jwt-auth
+This example creates a custom Auth.js credentials provider that uses JSON web tokens (JWT) as credentials.
+This plugin could be used when linking from a third-party app or when hosting the Lowdefy app on an iframe in a third-party app where the third party app generates the JWT.
 
-### Setup
+We recommend going through the following resources before continuing with this example:
+- [Lowdefy User Authentication docs](https://docs.lowdefy.com/users-introduction)
+- [Nextauth.js credentials docs](https://next-auth.js.org/providers/credentials)
 
-1. Sign-in with JWT signed using RS256, so we need:
+## Setup
 
-- You can setup a private key: $ ssh-keygen -t rsa -P "" -b 4096 -m PEM -f app-lowdefy.key
-  - Please keep the private key secure, you'll use this to generate a JWT every time you need to generate a new token.
-- Generate a public key: $ ssh-keygen -e -m PEM -f app-lowdefy.key > app-lowdefy.key.pub
+### 1. Sign-in with JWT signed using RS256, so you will need a private and public key:
 
-3. The following JWT claims should be applied to the JWT payload:
-   Standard claims:
+1. You can setup a private key:
+ Please keep the private key secure, you'll use this to generate a JWT every time you need to generate a new token.
+
+```
+ ssh-keygen -t rsa -P "" -b 4096 -m PEM -f app-lowdefy.key
+```
+1.  Generate a public key:
+```
+ssh-keygen -e -m PEM -f app-lowdefy.key > app-lowdefy.key.pub
+```
+
+### 2. The following JWT claims should be applied to the JWT payload:
+
+Standard claims:
 
 - Audience claim (aud) should be eg. `https://example.lowdefy.app`
 - Issuer (iss) should be eg. `https://your-domain.com`
@@ -20,12 +33,16 @@ A lowdefy monorepo starter for jwt auth.
 
 Any additional data can be included in the token and mapped to the user object with `auth.userFields`.
 
-NOTE: You can also switch to HS256, which is a little simpler if needed.
+>[!NOTE]
+>You can also switch to HS256, which is a little simpler if needed.
 
-4. The iframe url should be `https://example.lowdefy.app/iframe-login?page={{ page }}&token={{ token }}` where:
+To read more about what JWT claims are, see this [page](https://auth0.com/docs/secure/tokens/json-web-tokens/json-web-token-claims).
 
-- page (eg. "new-page")[required]: The initial page redirect after iframe login for the given user.
-- token (RS256 jwt): Provide sign in token as specified.
+### 3. The iframe url
+
+should be `https://example.lowdefy.app/iframe-login?page={{ page }}&token={{ token }}` where:
+- **{{ page }}** (eg. "new-page")[required]: The initial page redirect after iframe login for the given user.
+- **{{ token }}** (RS256 jwt): Provide sign in token as specified.
 
 Example:
 JWT Payload:
@@ -39,12 +56,11 @@ JWT Payload:
   // .. any additional payload fields
 }
 ```
+## To test:
 
-### To test:
-
-- Comment out cookies.
-- Change alg to RS256.
-- Generate token.
+- Cookies are commented out by default in `lowdefy.yaml`, if they are commented in, this will not work for local dev
+- Change alg to RS256 in `providers/JWTProvider/createAuthorize.js`
+- Generate token using [JWT.io](jwt.io).
   ```
   {
     "sub": "1234567890",
