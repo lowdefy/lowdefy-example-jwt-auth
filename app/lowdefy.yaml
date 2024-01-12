@@ -38,35 +38,38 @@ auth:
       token: # list all pages that only the token sign in user should see
         - new-page
 
-  advanced: # NOTE: comment out cookies for local dev. Check readme for test instructions.
-    cookies:
-      sessionToken:
-        name: __Secure-next-auth.session-token
-        options:
-          path: '/'
-          httpOnly: true
-          sameSite: 'none'
-          secure: true
-      callbackUrl:
-        name: __Secure-next-auth.callback-url
-        options:
-          path: '/'
-          sameSite: 'none'
-          secure: true
-      csrfToken:
-        name: __Secure-next-auth.csrf-token
-        options:
-          path: '/'
-          httpOnly: true
-          sameSite: 'none'
-          secure: true
-      pkceCodeVerifier:
-        name: __Secure-next-auth.pkce.code_verifier
-        options:
-          path: '/'
-          httpOnly: true
-          sameSite: 'none'
-          secure: true
+# The below is needed to run the app in an iFrame.
+# if these settings are applied, authentication will only work when served with HTTPS
+# To test on localhost HTTP server, comment out cookies. Check readme for test instructions.
+# advanced:
+#   cookies:
+#     sessionToken:
+#       name: __Secure-next-auth.session-token
+#       options:
+#         path: '/'
+#         httpOnly: true
+#         sameSite: 'none'
+#         secure: true
+#     callbackUrl:
+#       name: __Secure-next-auth.callback-url
+#       options:
+#         path: '/'
+#         sameSite: 'none'
+#         secure: true
+#     csrfToken:
+#       name: __Secure-next-auth.csrf-token
+#       options:
+#         path: '/'
+#         httpOnly: true
+#         sameSite: 'none'
+#         secure: true
+#     pkceCodeVerifier:
+#       name: __Secure-next-auth.pkce.code_verifier
+#       options:
+#         path: '/'
+#         httpOnly: true
+#         sameSite: 'none'
+#         secure: true
 
 pages:
   - _ref: pages/new-page/new-page.yaml
